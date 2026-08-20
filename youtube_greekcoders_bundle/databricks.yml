@@ -1,0 +1,59 @@
+# This is a Declarative Automation Bundle definition for youtube_greekcoders_bundle.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: youtube_greekcoders_bundle
+  uuid: 56973a40-8252-4e56-b7b7-c01fc9dfc536
+
+include:
+  - resources/*.yml
+
+# Variable declarations. These variables are assigned in the dev/prod targets below.
+# This is a Declarative Automation Bundle definition for youtube_greekcoders_bundle.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: youtube_greekcoders_bundle
+  uuid: 56973a40-8252-4e56-b7b7-c01fc9dfc536
+
+include:
+  - resources/*.yml
+
+# Variable declarations. These variables are assigned in the dev/prod targets below.
+
+$0
+variables:
+  catalog:
+    description: The catalog to use
+  schema:
+    description: The schema to use
+  warehouse_id:
+    description: WarehouseID
+
+targets:
+  dev:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default.
+    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-83315ad3-ed25.cloud.databricks.com
+    variables:
+      catalog: youtube_dev
+      schema: dev
+      warehouse_id: a5721d2e51643a49
+    presets:
+      artifacts_dynamic_version: true
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-83315ad3-ed25.cloud.databricks.com
+      # We explicitly deploy to /Workspace/Users/subhra7667.routray@gmail.com to make sure we only have a single copy.
+      root_path: /Workspace/Youtube_GeekCoders_Project
+    variables:
+      catalog: youtube_dev
+      schema: prod
+      warehouse_id: a5721d2e51643a49
+    permissions:
+      - user_name: subhra7667.routray@gmail.com
+        level: CAN_MANAGE
