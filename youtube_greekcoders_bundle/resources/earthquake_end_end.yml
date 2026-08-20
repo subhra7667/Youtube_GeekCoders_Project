@@ -1,0 +1,29 @@
+resources:
+  jobs:
+    Youtube_Earthquake_End_to_End:
+      name: Youtube_Earthquake_End_to_End
+      tasks:
+        - task_key: Injestion_Bronze
+          notebook_task:
+            notebook_path: /Workspace/Youtube_GeekCoders_Project/Youtube_GeekCoders_Project/youtube_greekcoders_bundle/src/notebooks/Ingestion_Bronze.ipynb
+            base_parameters:
+              catalog_name: youtube_dev
+            source: WORKSPACE
+        - task_key: Bronze_Silver_EarthQuackData
+          depends_on:
+            - task_key: Injestion_Bronze
+          pipeline_task:
+            pipeline_id: 584f73a7-96f7-4447-bea6-d7e50501c4f7
+        - task_key: EarthQuake_Dashboard
+          depends_on:
+            - task_key: Bronze_Silver_EarthQuackData
+          dashboard_task:
+            subscription: {}
+            warehouse_id: a5721d2e51643a49
+            dashboard_id: 01f190b3280314b3be0ab1ea6c9504dd
+      queue:
+        enabled: true
+      parameters:
+        - name: catalog_name
+          default: youtube_dev
+      performance_target: PERFORMANCE_OPTIMIZED

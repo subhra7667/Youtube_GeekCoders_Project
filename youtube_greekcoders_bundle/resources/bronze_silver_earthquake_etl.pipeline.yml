@@ -1,0 +1,16 @@
+# The main pipeline for youtube_greekcoders_bundle
+resources:
+  pipelines:
+    bronze_silver_earthquake_etl:
+      name: Bronze_Silver
+      catalog: ${var.catalog}
+      target: silver
+      libraries:
+        - glob:
+            include: ../src/DLT_Pipeline/Bronze_Silver/transformations/**
+      root_path: ../src/DLT_Pipeline/Bronze_Silver
+      serverless: true
+      continuous: false
+      development: false
+      photon: true
+      channel: CURRENT
